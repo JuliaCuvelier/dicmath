@@ -1,0 +1,19 @@
+h1{
+    color:darkblue;   
+}
+body{
+    background-color:aliceblue;
+    color: black;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+textarea{
+    color: black;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+form{
+    color: black;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+dload-fn{
+    color: black;
+}
