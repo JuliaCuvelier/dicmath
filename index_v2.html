@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            DictMath, Votre outil en ligne de dictée d'équations
+        </title>
+        <meta charset="utf-8"> 
+        <meta name="description" content="Avec DictMath, écrivez vos propres équations en utilisant votre voix">
+        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">          
+
+        <link href="stylesheet.css" rel="stylesheet">
+    </head>
+    <body> 
+
+        <img src="logo_random2.png" alt="logo site" width="100">
+        <h1>
+            DictMath
+        </h1>
+        <div>
+            <p>Votre outil en ligne de dictée d'équations !</p>
+        </div>
+        <hr>
+        <div>
+            <script type='text/javascript' src="jscript.js"></script>
+        </div>
+        <div>
+            <input type="button" value="Nouvelle équation" onclick='add()' accesskey ="1"/>
+            <hr>
+            <label for="feuille1">Feuille d'équation 1</label>
+            <br>
+            <form action="index.html" target="_blank">
+                <textarea name="Feuille 1" id="feuille1" classe="equation" cols="100" rows="15" required autofocus ></textarea>   
+                                                                
+                <button type=button onclick='doDownload(document.getElementById("feuille1").value)' accesskey="2">Télécharger le document</button>
+                <input type="reset" onclick="return reset_confirmation();" value = "Réinitialisation du document" style="font-weight:bold" accesskey ="3">
+
+            </form>                    
+                                    
+            <div id="fooBar"></div>
+        </div>
+        <h3>
+            Conseils d'utilisation :
+        </h3>
+        <div>
+            <p>Il est possible de se déplacer sur le site à l'aide aide de commandes vocales (à développer) ou de la touches <strong>tab</strong> et des <strong>flèches directionnelles</strong> </p>
+        </div>
+        <div>
+            <p>Nous vous recommandons d'utiliser le narrateur de votre ordinateur pour obtenir un feedback instantané sur les boutons sur lesquels 
+            vous vous trouvez et pour pouvoir entendre ce que vous écrivez. Appuyez sur <strong>alt</strong> et <strong>1</strong>
+            pour ajouter une nouvelle feuille d'équation, <strong>2</strong> pour enregistrer votre travail et <strong>3</strong> 
+            pour supprimer le contenu de la feuille actuelle.
+            Attention, ces commandes ne marchent que sur la première feuille d'équation.
+        </div>
+       
+    </body>
+</html>
+
