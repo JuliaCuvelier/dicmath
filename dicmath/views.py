@@ -22,7 +22,7 @@ def listen():
 
     last = db.session.query(Item).order_by(Item.equation.desc(), Item.line.desc(), Item.block.desc()).first()
     equation = last.equation if last else 1
-    line = last.line if last else 1
+    line = last.line + 1 if last else 1
 
     db.session.add_all([Item(equation=equation, line=line, block=i+1, data=v) for i, v in enumerate(blocks)])
     db.session.commit()
