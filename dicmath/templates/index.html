@@ -1,27 +1,34 @@
 {% extends 'base.html' %}
 
-{% block title %}DicMath{% endblock %}
-
 {% block body %}
   <div class="container">
     <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+      <a href="/clear" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
         <img src="{{ url_for('static', filename='images/logo.png') }}" class="bi me-2" width="32" height="32" alt="logo" />
         <span class="fs-4">DicMath</span>
       </a>
     </header>
   </div>
 
+  {% for equation in equations.values() %}
   <div class="container">
-    <form action="/listen" method="post">
-      <div class="row g-2 pb-3">
-        <div class="col">
-          <input type="text" class="form-control" value="{{ session['text'] }}">
-        </div>
+    {% for line in equation.values() %}
+    <div class="row g-2 pb-3">
+      {% for block in line.values() %}
+      <div class="col">
+        <input type="text" class="form-control" value="{{ block.data }}">
       </div>
+      {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+
+  <div class="container">
+    <a href="/listen">
       <div class="d-grid">
-        <button type="submit" class="btn btn-primary">Commencer la dictée</button>
+        <button class="btn btn-primary">Commencer la dictée</button>
       </div>
-    </form>
+    </a>
   </div>
 {% endblock %}
