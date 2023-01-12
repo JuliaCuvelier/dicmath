@@ -100,7 +100,7 @@ def text_to_math(text):
         'un': '1',
     }
 
-    text = text.translate(str.maketrans('', '', '.')) # Remove the '.' characters
+    text = text.translate(str.maketrans('', '', ',.')) # Remove the ',' and '.' characters
     L = text.split()
 
     for i, elem in enumerate(L):
