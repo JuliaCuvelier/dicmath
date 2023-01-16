@@ -22,7 +22,11 @@
       <div class="circle mx-1">{{ line_number }}</div>
       {% for block_number, block in line.items() %}
       <div class="col">
+        {% if block.data != '=' %}
         <input type="text" class="form-control" value="{{ block.data }}">
+        {% else %}
+        <input type="text" class="form-control" value="{{ block.data }}" disabled>
+        {% endif %}
       </div>
       {% endfor %}
     </div>
