@@ -1,6 +1,8 @@
+from pathlib import Path
 import re
 
 import azure.cognitiveservices.speech as speechsdk
+from pylatex import Document, Math, Section
 from sortedcontainers import SortedDict
 
 from dicmath import app
@@ -109,3 +111,15 @@ def text_to_math(text):
             L[i] = mapping[elem]
 
     return ' '.join(filter(lambda x: x, L))
+
+
+def export_pdf(equations):
+    doc = Document()
+
+    for equation_number, equation in equations.items():
+        with doc.create(Section(f'Equation {equation_number}')):
+            for line_number, line in equation.items():
+                doc.append(Math(data=[block.data for block in line.values()], escape=False))
+
+    path = Path.home() / 'Downloads' / 'dicmath'
+    doc.generate_pdf(path, compiler='pdflatex')

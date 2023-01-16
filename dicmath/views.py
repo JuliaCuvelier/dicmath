@@ -2,7 +2,7 @@ from flask import redirect, render_template, session, url_for
 
 from dicmath import app, db
 from dicmath.models import Item
-from dicmath.utils import items_to_equations, parse_equation, speech_to_text, text_to_speech, text_to_math
+from dicmath.utils import *
 
 
 @app.route('/')
@@ -35,3 +35,11 @@ def clear():
     db.session.query(Item).delete()
     db.session.commit()
     return redirect(url_for('index'))
+
+
+@app.route('/export')
+def export():
+    items = db.session.query(Item).all()
+    equations = items_to_equations(items)
+    export_pdf(equations)
+    return ('', 204)

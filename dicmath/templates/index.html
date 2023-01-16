@@ -3,10 +3,12 @@
 {% block body %}
   <div class="container">
     <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-      <a href="/clear" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
         <img src="{{ url_for('static', filename='images/logo.png') }}" class="bi me-2" width="32" height="32" alt="logo" />
         <span class="fs-4">DicMath</span>
       </a>
+      <a href="/clear" class="btn btn-danger mx-2">Effacer la feuille</a>
+      <a href="/export" class="btn btn-success">Exporter la feuille</a>
     </header>
   </div>
 
@@ -25,10 +27,6 @@
   {% endfor %}
 
   <div class="container">
-    <a href="/listen">
-      <div class="d-grid">
-        <button class="btn btn-primary" autofocus>Commencer la dictée</button>
-      </div>
-    </a>
+    <a href="/listen" class="btn btn-primary d-grid" autofocus>Commencer la dictée</a>
   </div>
 {% endblock %}
