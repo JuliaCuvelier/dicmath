@@ -12,11 +12,15 @@
     </header>
   </div>
 
-  {% for equation in equations.values() %}
+  {% for equation_number, equation in equations.items() %}
   <div class="container">
-    {% for line in equation.values() %}
+    <div class="d-grid pb-3">
+      <button class="btn btn-outline-dark" disabled>Equation {{ equation_number }}</button>
+    </div>
+    {% for line_number, line in equation.items() %}
     <div class="row g-2 pb-3">
-      {% for block in line.values() %}
+      <div class="circle mx-1">{{ line_number }}</div>
+      {% for block_number, block in line.items() %}
       <div class="col">
         <input type="text" class="form-control" value="{{ block.data }}">
       </div>
