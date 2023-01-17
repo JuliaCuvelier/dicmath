@@ -18,20 +18,28 @@ def listen():
     text_to_speech(text)
 
     math = text_to_math(text)
-    blocks = parse_equation(math)
 
-    last = db.session.query(Item).order_by(Item.equation.desc(), Item.line.desc(), Item.block.desc()).first()
-    equation = last.equation if last else 1
-    line = last.line + 1 if last else 1
+    if math.startswith('Équation'):
+        cmd = math.split()
+        session['equation'] = int(cmd[1]) if len(cmd) > 1 else 1
+        return ('', 204)
 
-    db.session.add_all([Item(equation=equation, line=line, block=i+1, data=v) for i, v in enumerate(blocks)])
-    db.session.commit()
+    else:
+        blocks = parse_equation(math)
 
-    return redirect(url_for('index'))
+        equation = session['equation'] if 'equation' in session else 1
+        last = db.session.query(Item).filter_by(equation=equation).order_by(Item.id.desc()).first()
+        line = last.line + 1 if last else 1
+
+        db.session.add_all([Item(equation=equation, line=line, block=i+1, data=v) for i, v in enumerate(blocks)])
+        db.session.commit()
+
+        return redirect(url_for('index'))
 
 
 @app.route('/clear')
 def clear():
+    session['equation'] = 1
     db.session.query(Item).delete()
     db.session.commit()
     return redirect(url_for('index'))

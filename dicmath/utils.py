@@ -91,6 +91,7 @@ def text_to_math(text):
         'au': '',
         'carré': '^ 2',
         'cube': '^ 3',
+        'de': '2',
         'égal': '=',
         'égale': '=',
         'fermer': ')',
@@ -100,6 +101,7 @@ def text_to_math(text):
         'plus': '+',
         'sur': '/',
         'un': '1',
+        'une': '1',
     }
 
     text = text.translate(str.maketrans('', '', ',.')) # Remove the ',' and '.' characters
