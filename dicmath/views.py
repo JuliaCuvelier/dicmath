@@ -24,6 +24,15 @@ def listen():
         cmd = math.split()
         session['equation'] = int(cmd[1]) if len(cmd) > 1 else 1
 
+    # Edit a line: "Modifier ligne n, [nouvelle ligne]"
+    elif math.startswith('Modifier') or math.startswith('Modifiez'):
+        cmd = math.split()
+        line = cmd[2]
+        blocks = parse_equation(' '.join(cmd[3:]))
+        db.session.query(Item).filter_by(equation=equation, line=line).delete()
+        db.session.add_all([Item(equation=equation, line=line, block=i+1, data=v) for i, v in enumerate(blocks)])
+        db.session.commit()
+
     # Delete a line: "Supprimer ligne [nº de la ligne]"
     elif math.startswith('Supprimer') or math.startswith('Supprimez'):
         cmd = math.split()
