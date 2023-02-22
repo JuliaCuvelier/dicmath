@@ -14,27 +14,33 @@ def index():
 
 @app.route('/listen')
 def listen():
+    equation = session.get('equation', 1)
     text = speech_to_text()
     text_to_speech(text)
-
     math = text_to_math(text)
 
+    # Change equation: "Équation [nº de l'équation]"
     if math.startswith('Équation'):
         cmd = math.split()
         session['equation'] = int(cmd[1]) if len(cmd) > 1 else 1
-        return ('', 204)
 
+    # Delete a line: "Supprimer ligne [nº de la ligne]"
+    elif math.startswith('Supprimer') or math.startswith('Supprimez'):
+        cmd = math.split()
+        line = cmd[2]
+        db.session.query(Item).filter_by(equation=equation, line=line).delete()
+        db.session.query(Item).filter(Item.equation == equation, Item.line > line).update({Item.line: Item.line - 1}, synchronize_session="fetch")
+        db.session.commit()
+
+    # Add a line: "[nouvelle ligne]"
     else:
         blocks = parse_equation(math)
-
-        equation = session['equation'] if 'equation' in session else 1
         last = db.session.query(Item).filter_by(equation=equation).order_by(Item.id.desc()).first()
         line = last.line + 1 if last else 1
-
         db.session.add_all([Item(equation=equation, line=line, block=i+1, data=v) for i, v in enumerate(blocks)])
         db.session.commit()
 
-        return redirect(url_for('index'))
+    return redirect(url_for('index'))
 
 
 @app.route('/clear')
