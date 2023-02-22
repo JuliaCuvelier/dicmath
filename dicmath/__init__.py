@@ -1,3 +1,5 @@
+import tempfile
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
@@ -6,7 +8,7 @@ app = Flask(__name__, instance_relative_config=True)
 
 app.config.from_mapping(
     SECRET_KEY='dev',
-    SQLALCHEMY_DATABASE_URI='sqlite:////tmp/dicmath.db',
+    SQLALCHEMY_DATABASE_URI=f'sqlite:///{tempfile.gettempdir()}/dicmath.db',
 )
 app.config.from_pyfile('config.py', silent=True)
 
