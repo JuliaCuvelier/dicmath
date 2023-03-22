@@ -24,6 +24,14 @@ def listen():
         cmd = math.split()
         session['equation'] = int(cmd[1]) if len(cmd) > 1 else 1
 
+    # Read a line: "Ligne [nº de la ligne]"
+    elif math.startswith('Ligne'):
+        cmd = math.split()
+        line = int(cmd[1])
+        items = db.session.query(Item).filter_by(equation=equation, line=line).order_by(Item.block).all()
+        line_text = ''.join(item.data for item in items)
+        text_to_speech(line_text)
+
     # Edit a line: "Modifier ligne n, [nouvelle ligne]"
     elif math.startswith('Modifier') or math.startswith('Modifiez'):
         cmd = math.split()
