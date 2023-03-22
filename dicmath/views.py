@@ -32,7 +32,7 @@ def listen():
         line_text = ''.join(item.data for item in items)
         text_to_speech(line_text)
 
-    # Edit a line: "Modifier ligne n, [nouvelle ligne]"
+    # Edit a line: "Modifier ligne [nº de la ligne], [nouvelle ligne]"
     elif math.startswith('Modifier') or math.startswith('Modifiez'):
         cmd = math.split()
         line = cmd[2]
@@ -49,11 +49,24 @@ def listen():
         db.session.query(Item).filter(Item.equation == equation, Item.line > line).update({Item.line: Item.line - 1}, synchronize_session="fetch")
         db.session.commit()
 
+    # Copy/paste a line: "Copier ligne [nº de la ligne], coller ligne [nº de la ligne]"
+    elif math.startswith('Copier') or math.startswith('Copiez'):
+        cmd = math.split()
+        last_line = db.session.query(Item).filter_by(equation=equation).order_by(Item.line.desc()).first()
+        line = cmd[2] if len(cmd) >= 3 else last_line.line
+        items = db.session.query(Item).filter_by(equation=equation, line=line).all()
+        line_text = ''.join(item.data for item in items)
+        blocks = parse_equation(line_text)
+        newline = cmd[5] if len(cmd) >= 6 else last_line.line + 1
+        db.session.query(Item).filter(Item.equation == equation, Item.line >= newline).update({Item.line: Item.line + 1}, synchronize_session="fetch")
+        db.session.add_all([Item(equation=equation, line=newline, block=i+1, data=v) for i, v in enumerate(blocks)])
+        db.session.commit()
+
     # Add a line: "[nouvelle ligne]"
     else:
         blocks = parse_equation(math)
-        last = db.session.query(Item).filter_by(equation=equation).order_by(Item.id.desc()).first()
-        line = last.line + 1 if last else 1
+        last_line = db.session.query(Item).filter_by(equation=equation).order_by(Item.line.desc()).first()
+        line = last_line.line + 1 if last_line else 1
         db.session.add_all([Item(equation=equation, line=line, block=i+1, data=v) for i, v in enumerate(blocks)])
         db.session.commit()
 
