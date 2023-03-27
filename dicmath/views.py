@@ -25,10 +25,10 @@ def listen():
             cmd = math_command.split()
             session['equation'] = int(cmd[1]) if len(cmd) > 1 else 1
 
-        # Read a line: "Ligne [nº de la ligne]"
-        elif math_command.startswith('Ligne'):
+        # Read a line: "Lire/Relire ligne [nº de la ligne]"
+        elif math_command.startswith('Lire') or math_command.startswith('Relire'):
             cmd = math_command.split()
-            line = int(cmd[1])
+            line = int(cmd[2])
             items = db.session.query(Item).filter_by(equation=current_equation, line=line).order_by(Item.block).all()
             line_text = ''.join(item.data for item in items)
             text_to_speech(line_text)
