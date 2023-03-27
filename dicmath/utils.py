@@ -2,6 +2,7 @@ from pathlib import Path
 import re
 
 import azure.cognitiveservices.speech as speechsdk
+from playsound import playsound
 from pylatex import Document, Math, Section
 from sortedcontainers import SortedDict
 
@@ -47,8 +48,14 @@ def speech_to_text():
     audio_config = speechsdk.audio.AudioConfig(use_default_microphone=True)
     speech_recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config, audio_config=audio_config)
 
-    print('Speak into your microphone.')
+    base_path = Path(__file__).resolve().parent
+    beep_path = base_path / 'static' / 'audio' / 'beep.wav'
+    reversed_beep_path = base_path / 'static' / 'audio' / 'beep_reversed.wav'
+
+    print('Speak into your microphone!')
+    playsound(str(beep_path))
     speech_recognition_result = speech_recognizer.recognize_once_async().get()
+    playsound(str(reversed_beep_path))
 
     if speech_recognition_result.reason == speechsdk.ResultReason.RecognizedSpeech:
         print("Recognized: {}".format(speech_recognition_result.text))
