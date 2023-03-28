@@ -87,7 +87,8 @@ def listen():
             db.session.add_all([Item(equation=current_equation, line=line, block=i+1, data=v) for i, v in enumerate(blocks)])
             db.session.commit()
 
-    except:
+    except Exception as e:
+        print(e)
         error_message = "Une erreur s'est produite lors du traitement de votre commande. Veuillez réessayer."
         text_to_speech(error_message)
 
@@ -105,7 +106,13 @@ def clear():
 
 @app.route('/export')
 def export():
-    items = db.session.query(Item).all()
-    equations = items_to_equations(items)
-    export_pdf(equations)
-    return ('', 204)
+    try:
+        items = db.session.query(Item).all()
+        equations = items_to_equations(items)
+        export_pdf(equations)
+    except Exception as e:
+        print(e)
+        error_message = "Une erreur s'est produite lors de l'exportation du PDF. Assurez-vous d'avoir installé pdflatex sur votre système."
+        text_to_speech(error_message)
+    finally:
+        return redirect(url_for('index'))
