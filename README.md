@@ -68,6 +68,10 @@ AZURE_SPEECH_KEY = 'YOUR_SPEECH_KEY'
 
 You should now be able to use DicMath.
 
+### Optional: Export PDF
+
+While the DicMath application works without `pdflatex`, you will need to install it if you want to export your sheets as PDFs. Refer to our [pdflatex installation guide](./docs/pdflatex_installation_guide.md) for instructions on how to install pdflatex.
+
 ## Usage
 
 To use DicMath, follow these steps:
