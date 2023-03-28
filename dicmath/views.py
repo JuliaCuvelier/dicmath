@@ -56,10 +56,26 @@ def listen():
             last_line = db.session.query(Item).filter_by(equation=current_equation).order_by(Item.line.desc()).first()
             line = cmd[2] if len(cmd) >= 3 else last_line.line
             items = db.session.query(Item).filter_by(equation=current_equation, line=line).all()
-            line_text = ''.join(item.data for item in items)
+            line_text = ' '.join(item.data for item in items)
             blocks = parse_equation(line_text)
             newline = cmd[5] if len(cmd) >= 6 else last_line.line + 1
             db.session.query(Item).filter(Item.equation == current_equation, Item.line >= newline).update({Item.line: Item.line + 1}, synchronize_session='fetch')
+            db.session.add_all([Item(equation=current_equation, line=newline, block=i+1, data=v) for i, v in enumerate(blocks)])
+            db.session.commit()
+
+        # Cut/paste a line: "Couper ligne [nº de la ligne], coller ligne [nº de la ligne]"
+        elif math_command.startswith('Couper') or math_command.startswith('Coupez'):
+            cmd = math_command.split()
+            last_line = db.session.query(Item).filter_by(equation=current_equation).order_by(Item.line.desc()).first()
+            line = cmd[2] if len(cmd) >= 3 else last_line.line
+            items = db.session.query(Item).filter_by(equation=current_equation, line=line).all()
+            line_text = ' '.join(item.data for item in items)
+            db.session.query(Item).filter_by(equation=current_equation, line=line).delete()
+            db.session.query(Item).filter(Item.equation == current_equation, Item.line > line).update({Item.line: Item.line - 1}, synchronize_session='fetch')
+            db.session.commit()
+            blocks = parse_equation(line_text)
+            newline = cmd[5] if len(cmd) >= 6 else last_line.line + 1
+            db.session.query(Item).filter(Item.equation == current_equation, Item.line>= newline).update({Item.line: Item.line + 1}, synchronize_session='fetch')
             db.session.add_all([Item(equation=current_equation, line=newline, block=i+1, data=v) for i, v in enumerate(blocks)])
             db.session.commit()
 
