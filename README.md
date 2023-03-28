@@ -48,6 +48,12 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+**For macOS users only**, also install `PyObjC` to make the `playsound` library work:
+
+```shell
+pip install PyObjC
+```
+
 6. Prevent the `instance/config.py` file from being tracked by Git using the following command:
 
 ```shell
