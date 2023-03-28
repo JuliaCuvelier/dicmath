@@ -60,7 +60,7 @@ pip install PyObjC
 git update-index --skip-worktree instance/config.py
 ```
 
-7. Create a [Microsoft Azure speech key](https://learn.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account) and add it to the `instance/config.py` file:
+7. Create a [Microsoft Azure Speech Key](./docs/azure_speech_key_tutorial.md) and add it to the `instance/config.py` file:
 
 ```python
 AZURE_SPEECH_KEY = 'YOUR_SPEECH_KEY'
