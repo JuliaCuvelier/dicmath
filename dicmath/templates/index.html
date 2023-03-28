@@ -7,8 +7,8 @@
         <img src="{{ url_for('static', filename='images/logo.png') }}" class="bi me-2" width="32" height="32" alt="logo" />
         <span class="fs-4">DicMath</span>
       </a>
-      <a href="/clear" class="btn btn-danger mx-2">Effacer la feuille</a>
-      <a href="/export" class="btn btn-success">Exporter la feuille</a>
+      <a href="/clear" id="clear-btn" class="btn btn-danger mx-2">Effacer la feuille</a>
+      <a href="/export" id="export-btn" class="btn btn-success">Exporter la feuille</a>
     </header>
   </div>
 
@@ -35,6 +35,8 @@
   {% endfor %}
 
   <div class="container">
-    <a href="/listen" class="btn btn-primary d-grid" autofocus>Commencer la dictée</a>
+    <a href="/listen" id="start-btn" class="btn btn-primary d-grid">Commencer la dictée</a>
   </div>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 {% endblock %}
