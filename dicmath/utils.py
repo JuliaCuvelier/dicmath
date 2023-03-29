@@ -10,6 +10,14 @@ from dicmath import app
 
 
 def items_to_equations(items):
+    """Converts a list of items to a nested SortedDict of equations.
+
+    Args:
+        items (list): A list of Item objects.
+
+    Returns:
+        SortedDict: A nested SortedDict containing the equations.
+    """
     equations = SortedDict()
 
     for item in items:
@@ -21,6 +29,14 @@ def items_to_equations(items):
 
 
 def parse_equation(text):
+    """Parses an equation from a given text.
+
+    Args:
+        text (str): The text containing the equation.
+
+    Returns:
+        list: A list of strings representing the parsed equation.
+    """
     L = re.split(r'(\=|\+|\-|\(|\))', text)
 
     count, temp, result = 0, '', []
@@ -42,6 +58,11 @@ def parse_equation(text):
 
 
 def speech_to_text():
+    """Transcribes speech to text using Azure Cognitive Services.
+
+    Returns:
+        str: The transcribed text.
+    """
     speech_config = speechsdk.SpeechConfig(subscription=app.config['AZURE_SPEECH_KEY'], region=app.config['AZURE_SPEECH_REGION'])
     speech_config.speech_recognition_language = app.config['LANGUAGE']
 
@@ -73,6 +94,11 @@ def speech_to_text():
 
 
 def text_to_speech(text):
+    """Converts text to speech using Azure Cognitive Services.
+
+    Args:
+        text (str): The text to convert to speech.
+    """
     speech_config = speechsdk.SpeechConfig(subscription=app.config['AZURE_SPEECH_KEY'], region=app.config['AZURE_SPEECH_REGION'])
     audio_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=True)
 
@@ -94,6 +120,15 @@ def text_to_speech(text):
 
 
 def text_to_math(text):
+    """Converts natural language text to a mathematical expression.
+
+    Args:
+        text (str): The text containing the mathematical expression.
+
+    Returns:
+        str: The mathematical expression as a string.
+    """
+
     mapping = {
         'au': '',
         'carré': '^ 2',
@@ -123,6 +158,11 @@ def text_to_math(text):
 
 
 def export_pdf(equations):
+    """Exports equations as a PDF file using pylatex.
+
+    Args:
+        equations (SortedDict): A nested SortedDict containing the equations.
+    """
     doc = Document()
 
     for equation_number, equation in equations.items():

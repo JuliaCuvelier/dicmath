@@ -1,27 +1,38 @@
 {% extends 'base.html' %}
 
 {% block body %}
+  <!-- Main container -->
   <div class="container">
+    <!-- Header with navigation -->
     <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+      <!-- Logo and title -->
       <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
         <img src="{{ url_for('static', filename='images/logo.png') }}" class="bi me-2" width="32" height="32" alt="logo" />
         <span class="fs-4">DicMath</span>
       </a>
+      <!-- Clear button -->
       <a href="/clear" id="clear-btn" class="btn btn-danger mx-2">Effacer la feuille</a>
+      <!-- Export button -->
       <a href="/export" id="export-btn" class="btn btn-success">Exporter la feuille</a>
     </header>
   </div>
 
+  <!-- Equations loop -->
   {% for equation_number, equation in equations.items() %}
   <div class="container">
+    <!-- Equation number -->
     <div class="d-grid pb-3">
       <button class="btn btn-outline-dark" disabled>Equation {{ equation_number }}</button>
     </div>
+    <!-- Lines loop -->
     {% for line_number, line in equation.items() %}
     <div class="row g-2 pb-3">
+      <!-- Line number -->
       <div class="circle mx-1">{{ line_number }}</div>
+      <!-- Blocks loop -->
       {% for block_number, block in line.items() %}
       <div class="col">
+        <!-- Input fields for blocks -->
         {% if block.data != '=' %}
         <input type="text" class="form-control" value="{{ block.data }}">
         {% else %}
@@ -34,9 +45,11 @@
   </div>
   {% endfor %}
 
+  <!-- Start dictation button -->
   <div class="container">
     <a href="/listen" id="start-btn" class="btn btn-primary d-grid">Commencer la dictée</a>
   </div>
 
+  <!-- Custom JavaScript -->
   <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 {% endblock %}

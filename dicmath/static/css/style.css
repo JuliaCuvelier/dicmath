@@ -1,7 +1,9 @@
+/* Custom background color */
 body {
   background-color: aliceblue;
 }
 
+/* Circle styling for line numbers */
 .circle {
   width: 38px;
   height: 38px;

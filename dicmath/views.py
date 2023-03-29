@@ -7,6 +7,11 @@ from dicmath.utils import *
 
 @app.route('/')
 def index():
+    """Renders the main page with the equations.
+
+    Returns:
+        str: The rendered HTML template for the main page.
+    """
     items = db.session.query(Item).all()
     equations = items_to_equations(items)
     return render_template('index.html', equations=equations)
@@ -14,6 +19,11 @@ def index():
 
 @app.route('/listen')
 def listen():
+    """Processes speech commands to manipulate equations.
+
+    Returns:
+        werkzeug.wrappers.Response: A redirect response to the main page.
+    """
     try:
         current_equation = session.get('equation', 1)
         user_text = speech_to_text()
@@ -98,6 +108,11 @@ def listen():
 
 @app.route('/clear')
 def clear():
+    """Clears all equations and resets the current equation number.
+
+    Returns:
+        werkzeug.wrappers.Response: A redirect response to the main page.
+    """
     session['equation'] = 1
     db.session.query(Item).delete()
     db.session.commit()
@@ -106,6 +121,11 @@ def clear():
 
 @app.route('/export')
 def export():
+    """Exports equations as a PDF file.
+
+    Returns:
+        werkzeug.wrappers.Response: A redirect response to the main page.
+    """
     try:
         items = db.session.query(Item).all()
         equations = items_to_equations(items)
