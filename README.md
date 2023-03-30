@@ -90,6 +90,8 @@ flask --app dicmath --debug run
 
 That's it! You can now start dictating your math equations and DicMath will display the results on the screen.
 
+For a detailed user guide, see the [Guide d'utilisation (French)](./docs/user_guide_fr.pdf).
+
 > **Note**  
 > DicMath only displays the results of your dictation and does not provide solutions to equations.
 
