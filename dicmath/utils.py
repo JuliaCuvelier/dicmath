@@ -141,6 +141,7 @@ def text_to_math(text):
         'moins': '-',
         'ouvrir': '(',
         'plus': '+',
+        'puissance': '^',
         'sur': '/',
         'un': '1',
         'une': '1',
